@@ -5,10 +5,10 @@ import Customer from "./components/customer";
 
 function App() {
     const apiBaseURL = "http://localhost:4000";
-    if (!apiBaseURL) {
-        throw new Error("missing import.meta.env.BASE_URL");
-    }
-    console.log(apiBaseURL);
+    // if (!apiBaseURL) {
+    //     throw new Error("missing import.meta.env.BASE_URL");
+    // }
+    // console.log(apiBaseURL);
 
     const [displayedCustomer, setDisplayedCustomer] = React.useState(null);
     const [inputFields, setInputFields] = React.useState({
@@ -36,6 +36,22 @@ function App() {
         }));
     };
 
+    const handleAddNewCustomer = async () => {
+        const newCustURL = apiBaseURL + "/customerLoyalty";
+        const headers = null;
+        const customerName = { name: inputFields.addCustomer };
+        const CustAddResult = await axios.post(
+            newCustURL,
+            customerName,
+            headers,
+        );
+        console.log(CustAddResult);
+        setInputFields((prevInputFields) => ({
+            ...prevInputFields,
+            addCustomer: "",
+        }));
+    };
+
     return (
         <div>
             <h1>Coffee App</h1>
@@ -48,6 +64,16 @@ function App() {
             ></input>
             <button onClick={handleSearch}>Search</button>
             {displayedCustomer && Customer(displayedCustomer)}
+            <div>
+                <input
+                    name="addCustomer"
+                    onChange={handleInputChange}
+                    value={inputFields.addCustomer}
+                ></input>
+                <button onClick={handleAddNewCustomer}>
+                    Add New Customer!
+                </button>
+            </div>
         </div>
     );
 }
