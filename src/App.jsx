@@ -1,9 +1,10 @@
 //@ts-ignore ignore typescript issues with import.meta
 import axios from "axios";
 import React from "react";
+import Customer from "./components/customer";
 
 function App() {
-    const apiBaseURL = import.meta.env.BASE_URL;
+    const apiBaseURL = "http://localhost:4000";
     if (!apiBaseURL) {
         throw new Error("missing import.meta.env.BASE_URL");
     }
@@ -46,6 +47,7 @@ function App() {
                 value={inputFields.searchByID}
             ></input>
             <button onClick={handleSearch}>Search</button>
+            {displayedCustomer && Customer(displayedCustomer)}
         </div>
     );
 }
